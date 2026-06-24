@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Court of the Dragon — A Warband for Trench Crusade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pirata+One&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#231a12;
+    --ink-soft:#3c2c1d;
+    --parch:#e8dcc0;
+    --parch-deep:#ddcfa9;
+    --parch-edge:#cdbb8f;
+    --blood:#7c1316;
+    --blood-deep:#4c0a0b;
+    --gold:#9c7a37;
+    --gold-soft:#b89a5c;
+    --rule:#b6a37a;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(120% 90% at 50% -10%, #2a1d12 0%, #150f08 60%, #0d0905 100%);
+    color:var(--ink);
+    font-family:"EB Garamond", Georgia, serif;
+    font-size:18px;
+    line-height:1.6;
+    padding:40px 16px 90px;
+  }
+  .sheet{
+    max-width:880px;
+    margin:0 auto;
+    background:
+      linear-gradient(180deg, rgba(255,250,235,.5), rgba(255,250,235,0) 30%),
+      radial-gradient(140% 60% at 50% 0%, #f0e7cf 0%, #e6dabd 45%, #ddcfa8 100%);
+    background-color:var(--parch);
+    box-shadow:0 0 0 1px #00000022, 0 26px 60px -20px #000000cc, inset 0 0 130px #b39a6233;
+    padding:0;
+    position:relative;
+    border:1px solid #00000033;
+  }
+  .sheet::before{
+    content:"";
+    position:absolute; inset:14px;
+    border:1px solid var(--blood);
+    box-shadow:inset 0 0 0 3px var(--parch), inset 0 0 0 4px #9c7a3766;
+    pointer-events:none;
+    z-index:2;
+  }
+  .inner{ padding:54px 56px 64px; position:relative; z-index:1;}
+
+  /* ---- Title ---- */
+  .crest{display:block; margin:0 auto 6px; width:120px; height:120px; color:var(--blood);}
+  .titleblock{ text-align:center; padding-bottom:14px; margin-bottom:6px;}
+  .overline{
+    font-family:"Cinzel",serif; letter-spacing:.42em; text-transform:uppercase;
+    font-size:.72rem; color:var(--ink-soft); margin:0 0 10px; padding-left:.42em;
+  }
+  h1.title{
+    font-family:"Pirata One", "Cinzel", serif;
+    font-weight:400;
+    font-size:4.4rem;
+    line-height:.96;
+    margin:0;
+    color:var(--blood-deep);
+    text-shadow:0 1px 0 #fff6e0, 0 2px 6px #4c0a0b22;
+  }
+  .subtitle{
+    font-family:"Cinzel",serif; letter-spacing:.3em; text-transform:uppercase;
+    font-size:.78rem; color:var(--ink-soft); margin:14px 0 0; padding-left:.3em;
+  }
+
+  /* ---- Section headers ---- */
+  h2.section{
+    font-family:"Cinzel",serif; font-weight:700;
+    text-transform:uppercase; letter-spacing:.16em;
+    color:var(--blood);
+    font-size:1.34rem;
+    margin:48px 0 2px;
+    padding-bottom:8px;
+    display:flex; align-items:center; gap:14px;
+  }
+  h2.section::after{
+    content:""; flex:1 1 auto; height:2px;
+    background:linear-gradient(90deg, var(--blood) 0%, var(--gold) 55%, transparent 100%);
+  }
+  .lede{ font-style:italic; color:var(--ink-soft); margin:0 0 18px; font-size:1.04rem;}
+
+  p{margin:0 0 14px;}
+  a{color:var(--blood);}
+
+  /* ---- Lore ---- */
+  .lore p:first-of-type::first-letter{
+    font-family:"Pirata One", serif;
+    float:left; font-size:4.6rem; line-height:.7;
+    padding:8px 12px 0 0; color:var(--blood);
+  }
+  .lore p{ text-align:justify; }
+  .lore .closer{ text-align:center; font-style:italic; color:var(--blood-deep); font-size:1.1rem; margin-top:22px;}
+
+  /* ---- Divider ---- */
+  .divider{display:flex; align-items:center; justify-content:center; gap:18px; margin:40px 0 8px;}
+  .divider .ln{height:1px; width:120px; background:linear-gradient(90deg,transparent,var(--rule));}
+  .divider .ln.r{background:linear-gradient(90deg,var(--rule),transparent);}
+  .divider svg{width:34px;height:34px;color:var(--blood);}
+
+  /* ---- Generic rule lists ---- */
+  .rules h3{
+    font-family:"Cinzel",serif; font-weight:600; letter-spacing:.05em;
+    color:var(--ink); font-size:1.04rem; margin:20px 0 4px;
+  }
+  .rules p{margin:0 0 10px;}
+  ul.blood{ list-style:none; margin:6px 0 14px; padding:0;}
+  ul.blood li{ position:relative; padding-left:24px; margin:0 0 7px;}
+  ul.blood li::before{
+    content:"❖"; position:absolute; left:0; top:0; color:var(--blood); font-size:.82rem;
+  }
+  .kw{font-family:"Cinzel",serif; font-size:.92em; letter-spacing:.02em;}
+  strong{color:var(--blood-deep);}
+
+  /* ---- Tables (armoury / ladder) ---- */
+  table.t{ width:100%; border-collapse:collapse; margin:6px 0 20px; font-size:.96rem;}
+  table.t caption{
+    font-family:"Cinzel",serif; text-transform:uppercase; letter-spacing:.14em;
+    font-size:.78rem; color:var(--blood); text-align:left; padding:14px 0 6px; font-weight:700;
+  }
+  table.t th, table.t td{ text-align:left; padding:7px 10px; border-bottom:1px solid #b6a37a66;}
+  table.t thead th{
+    font-family:"Cinzel",serif; font-size:.72rem; text-transform:uppercase; letter-spacing:.12em;
+    color:var(--parch); background:var(--blood-deep); border-bottom:none;
+  }
+  table.t tbody tr:nth-child(even){ background:#cdbb8f2e;}
+  table.t td.cost{ text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums;}
+
+  /* ---- Unit entry ---- */
+  .entry{
+    margin:26px 0 8px; border:1px solid #00000026;
+    background:linear-gradient(180deg,#f0e7d0,#e6dabd);
+    box-shadow:0 2px 0 #00000014, inset 0 0 40px #b39a6222;
+  }
+  .entry-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    background:var(--blood-deep); color:var(--parch);
+    padding:10px 16px;
+  }
+  .entry-head .nm{ font-family:"Cinzel",serif; font-weight:700; letter-spacing:.1em; text-transform:uppercase; font-size:1.12rem;}
+  .entry-head .nm .lim{ font-size:.7rem; letter-spacing:.18em; color:var(--gold-soft); margin-right:10px; vertical-align:middle;}
+  .entry-head .cost{ font-family:"Cinzel",serif; font-weight:600; font-size:1.02rem; color:#f4e8c8; white-space:nowrap;}
+  .entry-body{ padding:14px 18px 18px;}
+  .flavor{ font-style:italic; color:var(--ink-soft); margin:0 0 14px; font-size:1.02rem;}
+
+  table.stat{ width:100%; border-collapse:collapse; margin:0 0 14px; }
+  table.stat th{
+    font-family:"Cinzel",serif; font-size:.64rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--parch); background:var(--blood); padding:5px 8px; text-align:center; border:1px solid #4c0a0b;
+  }
+  table.stat td{
+    text-align:center; padding:8px 8px; font-family:"Cinzel",serif; font-size:.96rem;
+    background:#efe6cd; border:1px solid #b6a37a;
+  }
+
+  .drow{ display:grid; grid-template-columns:108px 1fr; gap:0 14px; padding:9px 0; border-top:1px solid #b6a37a66;}
+  .drow .lab{
+    font-family:"Cinzel",serif; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--blood); padding-top:3px;
+  }
+  .drow .val{margin:0;}
+  .drow .val p{margin:0 0 8px;}
+  .drow .val p:last-child{margin-bottom:0;}
+  .ability{margin:0 0 8px;}
+  .ability:last-child{margin-bottom:0;}
+  .ability b{font-family:"Cinzel",serif; font-size:.92rem; letter-spacing:.02em; color:var(--blood-deep);}
+  .state{ border-left:2px solid var(--blood); padding-left:12px; margin:8px 0;}
+
+  .note{ font-size:.92rem; color:var(--ink-soft); font-style:italic;}
+  .subhead{
+    font-family:"Cinzel",serif; text-transform:uppercase; letter-spacing:.14em;
+    font-size:.82rem; color:var(--blood); margin:30px 0 8px; font-weight:700;
+    border-bottom:1px solid var(--rule); padding-bottom:6px;
+  }
+
+  @media (max-width:640px){
+    body{font-size:16px; padding:16px 6px 60px;}
+    .inner{padding:34px 20px 40px;}
+    h1.title{font-size:3rem;}
+    .drow{grid-template-columns:1fr; gap:2px;}
+    .entry-head{flex-direction:column; gap:2px;}
+  }
+.duc{display:inline-block;width:.8em;height:.68em;background:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyMic+PHBhdGggZmlsbD0nIzljN2EzNycgZD0nTTIuNSAxNiBMNC41IDcgTDkgMTEuNSBMMTIgNSBMMTUgMTEuNSBMMTkuNSA3IEwyMS41IDE2IFonLz48cmVjdCB4PSczJyB5PScxNS41JyB3aWR0aD0nMTgnIGhlaWdodD0nMy4yJyBmaWxsPScjOWM3YTM3Jy8+PC9zdmc+') no-repeat center/contain;vertical-align:-.03em;margin:0 1px;}.glory{display:inline-block;width:.74em;height:.74em;background:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyNCc+PGNpcmNsZSBjeD0nMTInIGN5PScxMicgcj0nNC4yJyBmaWxsPScjN2MxMzE2Jy8+PGcgc3Ryb2tlPScjN2MxMzE2JyBzdHJva2Utd2lkdGg9JzInIHN0cm9rZS1saW5lY2FwPSdyb3VuZCc+PGxpbmUgeDE9JzEyJyB5MT0nMS41JyB4Mj0nMTInIHkyPSc1Jy8+PGxpbmUgeDE9JzEyJyB5MT0nMTknIHgyPScxMicgeTI9JzIyLjUnLz48bGluZSB4MT0nMS41JyB5MT0nMTInIHgyPSc1JyB5Mj0nMTInLz48bGluZSB4MT0nMTknIHkxPScxMicgeDI9JzIyLjUnIHkyPScxMicvPjxsaW5lIHgxPSc0LjUnIHkxPSc0LjUnIHgyPSc3JyB5Mj0nNycvPjxsaW5lIHgxPScxNycgeTE9JzE3JyB4Mj0nMTkuNScgeTI9JzE5LjUnLz48bGluZSB4MT0nNC41JyB5MT0nMTkuNScgeDI9JzcnIHkyPScxNycvPjxsaW5lIHgxPScxNycgeTE9JzcnIHgyPScxOS41JyB5Mj0nNC41Jy8+PC9nPjwvc3ZnPg==') no-repeat center/contain;vertical-align:-.09em;margin:0 1px;}.etop{display:flex;gap:16px;align-items:flex-start;margin-bottom:10px;}.portrait{width:150px;height:auto;flex:0 0 auto;border:1px solid var(--blood);padding:3px;background:#efe7d0;}.etop-r{flex:1 1 auto;min-width:0;}.etop-r .flavor{margin-top:0;}.cover-hero{display:block;width:300px;max-width:72%;margin:18px auto 6px;border:2px solid var(--blood);padding:4px;background:#efe7d0;box-shadow:0 4px 18px #00000055;}@media(max-width:560px){.etop{flex-direction:column;align-items:center;}.portrait{width:62%;}.etop-r{width:100%;}}
+</style>
+</head>
+<body>
+<div class="sheet">
+<div class="inner">
+
+  <!-- ===== TITLE ===== -->
+  <div class="titleblock">
+    <svg class="crest" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <circle cx="50" cy="52" r="33" stroke="currentColor" stroke-width="4" fill="none" opacity=".35"/>
+      <path d="M50 19 C28 19 17 36 20 54 C23 72 38 82 50 82 C58 82 64 78 67 73"
+            stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M67 73 C72 69 74 63 71 58 C69 54 64 53 61 56 C58 59 60 64 64 64"
+            stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <path d="M50 19 C56 14 64 14 69 19 C73 23 73 29 69 32 L60 26 Z" fill="currentColor"/>
+      <circle cx="64" cy="22" r="1.8" fill="#e8dcc0"/>
+      <path d="M69 19 l8 -5 M71 23 l9 -1" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M34 34 C26 30 20 34 22 42 C27 39 31 40 34 44" fill="currentColor" opacity=".75"/>
+    </svg>
+    <p class="overline">Trench Crusade · A Renegade Warband</p>
+    <h1 class="title">The Court of the Dragon</h1>
+    <p class="subtitle">The Damned of Wallachia</p>
+    <img class="cover-hero" src="images/cover.jpg" alt="The Voivode">
+  </div>
+
+  <!-- ===== LORE ===== -->
+  <div class="lore">
+    <p>In the year 1573, when Byzantium had fallen and the Infernal advance crept north, the Sacred Order of the Dragon held the line in the hills of Wallachia. A million Heretics were impaled in those hills, and Heaven called it a miracle.</p>
+    <p>It was no miracle. It was a bargain. The knights of the Order had gone to the Scholomance — the Devil's school hidden beneath the Carpathian peaks — and struck a pact for power enough to hold. Immortality. Blood-sorcery. The strength to drink the war itself. They took the loan meaning never to repay it: to turn Hell's gift against Hell's own servants, and keep the borrowed eternity for themselves.</p>
+    <p>Heaven named them apostates and shut its gates. Hell, whose every law is written in contracts and collateral, named them thieves — for in the theology of the Pit there is no sin worse than welshing on a debt. So the Court belongs to neither power. They are hunted by the angels they betrayed and the devils they cheated, and they answer to no master at all.</p>
+    <p>They answer only to the blood. For the power the Order stole was never truly theirs — they drank it, long ago, from three things older and hungrier that still sleep in the crypts beneath Castle Dracula. The Voivode rules the Court, deadliest of all his kind; yet even he is a child beside the Elders below, from whose veins his own gift first came.</p>
+    <p class="closer">They are slow. They are few. And the longer the killing lasts, the stronger they become.</p>
+  </div>
+
+  <div class="divider"><span class="ln"></span>
+    <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 8 L60 40 L92 50 L60 60 L50 92 L40 60 L8 50 L40 40 Z"/></svg>
+    <span class="ln r"></span></div>
+
+  <!-- ===== SPECIAL RULES ===== -->
+  <h2 class="section">Special Rules</h2>
+  <div class="rules">
+    <p class="lede">These rules apply to every Court of the Dragon Warband.</p>
+
+    <h3>Sated Markers</h3>
+    <p>The Court's power is measured in <strong>Sated Markers</strong> — blood harvested from others — kept entirely separate from Blood Markers.</p>
+    <ul class="blood">
+      <li>Blood Markers on a Court model function as normal: your opponent may spend them against your rolls. They are a weakness.</li>
+      <li>Sated Markers are the Court's strength, fuelling its states and abilities.</li>
+      <li>A model can hold a maximum of <strong>6</strong> Sated Markers (raised to 8 by certain Bloodline gifts). Track them with a distinct counter.</li>
+    </ul>
+
+    <h3>The Feed ACTION</h3>
+    <p>A model with the <span class="kw">FEED</span> keyword may take a Feed ACTION: choose an enemy or friendly model within <strong>1"</strong> that has no Blessing Markers and does <strong>not</strong> have the <span class="kw">ARTIFICIAL</span> keyword, then take a <strong>Risky Success Roll</strong>. On a Success, place 1 Blood Marker on that model and the feeding model gains 1 Sated Marker. <em>(As a Risky action, a failure ends the model's Activation — so Feed is usually taken last.)</em></p>
+
+    <h3>The Sanctified</h3>
+    <p>A model that has 1 or more Blessing Markers cannot be the target of a Feed ACTION.</p>
+
+    <h3>The State Ladder</h3>
+    <p>Every <span class="kw">VAMPIRE</span> model checks its Sated total to determine its state. The marker count <em>is</em> the state — there is no duration. Spending Sated on an ability may drop a model below a threshold and out of its state.</p>
+    <table class="t">
+      <thead><tr><th>State</th><th>Sated Held</th></tr></thead>
+      <tbody>
+        <tr><td>Base</td><td>0–2</td></tr>
+        <tr><td>Ascended</td><td>3–4</td></tr>
+        <tr><td>Blood-Crazed</td><td>5–6</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Blood-Crazed Behaviour</h3>
+    <ul class="blood">
+      <li>Must take a Charge ACTION against the nearest eligible model if able (see The Leash).</li>
+      <li>May take no ACTION other than Move, Dash, Charge, or Fight.</li>
+      <li>It may still <strong>hold and score objectives</strong>, like any other model.</li>
+    </ul>
+
+    <h3>The Leash (DOMINION)</h3>
+    <p>Each time a friendly Blood-Crazed model is Activated, check for a friendly <span class="kw">DOMINION</span> model within <strong>8"</strong>:</p>
+    <ul class="blood">
+      <li><strong>In range:</strong> it must charge the nearest <em>enemy</em> model.</li>
+      <li><strong>Not in range:</strong> it must charge the nearest <em>model</em>, friend or foe.</li>
+    </ul>
+    <p>If no friendly DOMINION model remains on the battlefield, all the Warband's Blood-Crazed models are permanently loose for the rest of the game.</p>
+
+    <h3>Undead Fortitude</h3>
+    <p>Vampire models carry the <span class="kw">REGENERATE</span> keyword (value varies by model). The Warband's herd — Bled and Strix — do not.</p>
+
+    <h3>The Betrayed Church</h3>
+    <p>Any attack made against a Court of the Dragon model by a model carrying 1 or more Blessing Markers gains <strong>+1 INJURY DICE</strong>.</p>
+
+    <h3>New Keywords</h3>
+    <ul class="blood">
+      <li><span class="kw">VAMPIRE</span> <em>(Tag):</em> one of the undead blood-drinkers of the Court. The Bled and the Strix are not VAMPIRE — they are the herd.</li>
+      <li><span class="kw">FEED</span> <em>(Tag/Effect):</em> this model can take the Feed ACTION.</li>
+      <li><span class="kw">DOMINION</span> <em>(Tag):</em> friendly Blood-Crazed models within 8" of this model are leashed.</li>
+    </ul>
+  </div>
+
+  <div class="divider"><span class="ln"></span>
+    <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 8 L60 40 L92 50 L60 60 L50 92 L40 60 L8 50 L40 40 Z"/></svg>
+    <span class="ln r"></span></div>
+
+  <!-- ===== BLOODLINES ===== -->
+  <h2 class="section">The Bloodlines</h2>
+  <p class="lede">The Court's power flows from three Elders sleeping in the crypts beneath Castle Dracula — the things the Voivode himself first drank from.</p>
+  <p><strong>Pledge:</strong> When a Warband is created, it pledges to <strong>one</strong> Elder. That bloodline's gifts are available to the Warband's <span class="kw">ELITE</span> vampires; the other two are closed. Gifts are received in two ways — <strong>Elder Blood</strong>, purchased with ducats at creation (a vampire may take up to 3); and <strong>Bloodline Skills</strong>, earned through campaign advancement in place of standard Skill rolls. The final Skill (★) is the most potent.</p>
+
+  <div class="entry">
+    <div class="entry-head"><span class="nm">Mara, the Red Famine</span><span class="cost">Predator — the hunt &amp; the feast</span></div>
+    <div class="entry-body">
+      <p class="flavor">The eldest and hungriest — a feral, starving thing that is all appetite, who taught the Court to feast.</p>
+      <div class="drow"><span class="lab">Elder Blood</span><div class="val">
+        <p class="ability"><b>Glutton for Blood</b> (25<span class="duc"></span>) — its Feed ACTION grants 2 Sated instead of 1.</p>
+        <p class="ability"><b>Gorge</b> (20<span class="duc"></span>) — once per game, immediately gain 3 Sated.</p>
+        <p class="ability"><b>Children of the Night</b> (20<span class="duc"></span>) — once per game, place 1–2 free Strix within 6".</p>
+      </div></div>
+      <div class="drow"><span class="lab">Skills</span><div class="val">
+        <p class="ability"><b>1 · Bloodscent</b> — may Feed on a target within 2".</p>
+        <p class="ability"><b>2 · Lunging Bite</b> — +1 DICE to Melee Attacks on any turn it Charged.</p>
+        <p class="ability"><b>3 · Sate the Kill</b> — taking a model Out of Action in melee grants 1 Sated, no action required.</p>
+        <p class="ability"><b>4 · Shared Feast</b> — whenever it Feeds, one friendly vampire within 6" also gains 1 Sated.</p>
+        <p class="ability"><b>5 · Savage the Wounded</b> — +1 INJURY DICE against any model carrying 1+ Blood Marker.</p>
+        <p class="ability"><b>★ The Red Famine</b> — Sated cap rises to 8. While at 7+ Sated, Melee Attacks gain +1 DICE and +1 INJURY DICE, but it must take a model Out of Action each Turn or shed 1 Sated.</p>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="nm">Negru Vodă, the Throne of Thorns</span><span class="cost">Sovereign — command &amp; dread</span></div>
+    <div class="entry-body">
+      <p class="flavor">The Black Voivode who ruled these mountains before Dracula was born; his blood is rulership, and the thorns are the stakes.</p>
+      <div class="drow"><span class="lab">Elder Blood</span><div class="val">
+        <p class="ability"><b>Hypnotic Gaze</b> (30<span class="duc"></span>) — once per game, seize any enemy model for one activation (move + one attack), then leave it Down.</p>
+        <p class="ability"><b>Crown of Dread</b> (25<span class="duc"></span>) — −1 DICE to all Success Rolls for enemy models within 6". With its FEAR, melee attacks against it suffer −2 in total.</p>
+        <p class="ability"><b>Ancient Will</b> (20<span class="duc"></span>) — the enemy may spend at most 1 Blood Marker to add −1 DICE against this model on any given roll.</p>
+      </div></div>
+      <div class="drow"><span class="lab">Skills</span><div class="val">
+        <p class="ability"><b>1 · Voice of the Voivode</b> — while on the battlefield and not Down/Out of Action, add +1 DICE to your Warband's Morale Check, and ignore the Shaken rule that turns all Success Rolls Risky.</p>
+        <p class="ability"><b>2 · Greater Dread</b> — enemy models within 3" must treat all their Success Rolls as Risky Success Rolls.</p>
+        <p class="ability"><b>3 · Seat of Command</b> — gains the DOMINION keyword.</p>
+        <p class="ability"><b>4 · Withering Gaze</b> — once per Activation, an enemy within 8" takes −1 DICE to its next Success Roll.</p>
+        <p class="ability"><b>5 · Throne of Thorns</b> — enemies treat the area within 6" of this model as Difficult terrain.</p>
+        <p class="ability"><b>★ The Black Throne</b> — gains DOMINION with unlimited Leash range; enemy models within 12" that take a Charge ACTION must charge this model if able.</p>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="nm">Cazimir, the Hundred-Graved</span><span class="cost">Deathless — the grave that won't keep</span></div>
+    <div class="entry-body">
+      <p class="flavor">Buried a hundred times and risen from every grave; his blood is the curse that will not let go.</p>
+      <div class="drow"><span class="lab">Elder Blood</span><div class="val">
+        <p class="ability"><b>Truly Deathless</b> (30<span class="duc"></span>) — the first time it would be taken Out of Action, it dissolves to mist and reforms at a board edge at the start of your next Turn with 2 Sated.</p>
+        <p class="ability"><b>Unhallowed Flesh</b> (25<span class="duc"></span>) — permanent −1 INJURY MODIFIER (stacks with worn armour).</p>
+        <p class="ability"><b>Form of Mist</b> (25<span class="duc"></span>) — gains FLYING, may move through models and terrain, and ranged attacks targeting it take −1 DICE.</p>
+      </div></div>
+      <div class="drow"><span class="lab">Skills</span><div class="val">
+        <p class="ability"><b>1 · Knit the Wound</b> — its REGENERATE value rises by 1.</p>
+        <p class="ability"><b>2 · Rise from the Mire</b> — the first time it is taken Down each game, it immediately stands and may move 3".</p>
+        <p class="ability"><b>3 · Unquiet Body</b> — gains TOUGH; if it already has TOUGH, it may use it twice per game.</p>
+        <p class="ability"><b>4 · Grave-Chill</b> — the first Blood Marker placed on it each Turn is removed immediately.</p>
+        <p class="ability"><b>5 · Withered Revenant</b> — while at 0 Sated it does not weaken; instead the next model it takes Out of Action restores 2 Sated.</p>
+        <p class="ability"><b>★ The Hundred Graves</b> — each time it is taken Out of Action, roll a D6; on 4+ it reforms at a board edge next Turn with 1 Sated. FIRE or BLESSED attacks deny the roll.</p>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="divider"><span class="ln"></span>
+    <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 8 L60 40 L92 50 L60 60 L50 92 L40 60 L8 50 L40 40 Z"/></svg>
+    <span class="ln r"></span></div>
+
+  <!-- ===== ARMOURY ===== -->
+  <h2 class="section">Armoury</h2>
+  <p class="lede">Items marked ❖ are unique to the Court; their rules follow the tables. The Court may not take FIRE weapons.</p>
+
+  <table class="t">
+    <caption>Ranged — Firearms</caption>
+    <thead><tr><th>Weapon</th><th>Notes</th><th class="cost">Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Pistol</td><td></td><td class="cost">6<span class="duc"></span></td></tr>
+      <tr><td>Musket</td><td></td><td class="cost">5<span class="duc"></span></td></tr>
+      <tr><td>Arquebus</td><td></td><td class="cost">8<span class="duc"></span></td></tr>
+      <tr><td>Blunderbuss (Shield Combo)</td><td></td><td class="cost">5<span class="duc"></span></td></tr>
+      <tr><td>❖ Sanguine Arquebus</td><td></td><td class="cost">12<span class="duc"></span></td></tr>
+      <tr><td>❖ Vein-Seeker Rifle</td><td>ELITE only · Limit 3</td><td class="cost">25<span class="duc"></span></td></tr>
+      <tr><td>Machine Gun</td><td>Limit 1</td><td class="cost">50<span class="duc"></span></td></tr>
+      <tr><td>Grenade Launcher / Trench Mortar</td><td>Limit 1</td><td class="cost">40<span class="duc"></span></td></tr>
+    </tbody>
+  </table>
+
+  <table class="t">
+    <caption>Melee</caption>
+    <thead><tr><th>Weapon</th><th>Notes</th><th class="cost">Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Trench Knife</td><td></td><td class="cost">1<span class="duc"></span></td></tr>
+      <tr><td>Trench Club</td><td></td><td class="cost">3<span class="duc"></span></td></tr>
+      <tr><td>Sword / Axe</td><td></td><td class="cost">4<span class="duc"></span></td></tr>
+      <tr><td>Polearm (Shield Combo)</td><td></td><td class="cost">7<span class="duc"></span></td></tr>
+      <tr><td>Great Hammer / Maul</td><td></td><td class="cost">10<span class="duc"></span></td></tr>
+      <tr><td>Great Sword / Axe</td><td></td><td class="cost">12<span class="duc"></span></td></tr>
+      <tr><td>❖ Blood-Blade</td><td></td><td class="cost">12<span class="duc"></span></td></tr>
+      <tr><td>❖ Impaler's Stake</td><td>Limit 3</td><td class="cost">15<span class="duc"></span></td></tr>
+      <tr><td>❖ Sanguine Reaver</td><td>Voivode only · Limit 1</td><td class="cost">40<span class="duc"></span></td></tr>
+    </tbody>
+  </table>
+
+  <table class="t">
+    <caption>Shields · Armour · Equipment</caption>
+    <thead><tr><th>Item</th><th>Notes</th><th class="cost">Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Trench Shield (Shield Combo)</td><td></td><td class="cost">10<span class="duc"></span></td></tr>
+      <tr><td>Standard Armour</td><td></td><td class="cost">15<span class="duc"></span></td></tr>
+      <tr><td>Reinforced Armour</td><td>ELITE only</td><td class="cost">40<span class="duc"></span></td></tr>
+      <tr><td>Combat Helmet</td><td></td><td class="cost">5<span class="duc"></span></td></tr>
+      <tr><td>Gas Mask</td><td></td><td class="cost">5<span class="duc"></span></td></tr>
+      <tr><td>❖ Coffin of Grave-Soil</td><td></td><td class="cost">15<span class="duc"></span></td></tr>
+      <tr><td>❖ Vial of Stolen Blood</td><td>Consumable</td><td class="cost">10<span class="duc"></span></td></tr>
+      <tr><td>Troop Flag</td><td></td><td class="cost">1<span class="glory"></span></td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="subhead">Court Battlekit ❖</h3>
+  <div class="rules">
+    <p class="ability"><b>Sanguine Arquebus</b> · 2-Handed · 18" · CUMBERSOME — <em>Bleeding Shot:</em> place 1 additional Blood Marker on any model wounded by this weapon.</p>
+    <p class="ability"><b>Vein-Seeker Rifle</b> · 2-Handed · 30" · HEAVY — <em>Hungry Rounds:</em> place 1 extra Blood Marker on a wounded target, and a friendly vampire within 6" of that target may immediately take a Feed ACTION against it as if in contact.</p>
+    <p class="ability"><b>Blood-Blade</b> · 1-Handed Melee — <em>Thirst:</em> the first time this weapon wounds a model each Activation, the wielder gains 1 Sated.</p>
+    <p class="ability"><b>Impaler's Stake</b> · 2-Handed Melee · BLOCK — <em>The Impaling:</em> when this weapon takes an enemy model Out of Action, you may place a permanent Impaled Marker where it stood, then this weapon is lost for the rest of the game. The area within 3" of an Impaled Marker is Difficult terrain for non–DRAGON COURT models. Court models move freely.</p>
+    <p class="ability"><b>Sanguine Reaver</b> · 2-Handed Melee · DEADLY — <em>The Reaver Drinks Deep:</em> each time this weapon takes a model Out of Action, the wielder gains 2 Sated; while the wielder is Ascended, its Melee Attacks gain +1 INJURY DICE.</p>
+    <p class="ability"><b>Coffin of Grave-Soil</b> · Equipment — <em>Buried Advance:</em> instead of deploying normally, this model is held in reserve and enters from any friendly board edge at the start of any of your first two Turns.</p>
+    <p class="ability"><b>Vial of Stolen Blood</b> · Equipment · Consumable — once per game, from your second Turn onward, a vampire that drinks it gains 1 Sated.</p>
+  </div>
+
+  <div class="divider"><span class="ln"></span>
+    <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 8 L60 40 L92 50 L60 60 L50 92 L40 60 L8 50 L40 40 Z"/></svg>
+    <span class="ln r"></span></div>
+
+  <!-- ===== ELITE ENTRIES ===== -->
+  <h2 class="section">Elite Warband Entries</h2>
+
+  <!-- VOIVODE -->
+  <div class="entry">
+    <div class="entry-head"><span class="nm"><span class="lim">0–1</span>The Voivode</span><span class="cost">160<span class="duc"></span></span></div>
+    <div class="entry-body">
+      <div class="etop"><img class="portrait" src="images/voivode.jpg" alt="The Voivode"><div class="etop-r"><p class="flavor">The first knight of the Order to drink, and the last to repent. Lesser things do not disobey when he is near.</p><table class="stat">
+        <thead><tr><th>Movement</th><th>Ranged</th><th>Melee</th><th>Armour</th><th>Base</th></tr></thead>
+        <tbody><tr><td>7"/Infantry</td><td>+1 DICE</td><td>+3 DICE</td><td>0</td><td>32mm</td></tr></tbody>
+      </table></div></div>
+      <div class="drow"><span class="lab">Battlekit</span><p class="val">Any from the Armoury. May take a Pistol.</p></div>
+      <div class="drow"><span class="lab">Abilities</span><div class="val">
+        <p class="ability"><b>Master of the Hunger</b> — the Voivode can never become Blood-Crazed, regardless of his Sated count.</p>
+        <p class="ability"><b>Ascended (3+ Sated)</b> — his Melee Attacks gain +1 INJURY DICE, his Movement becomes 10", and his personal Leash radius extends to 12".</p>
+        <p class="ability"><b>Crimson Surge</b> (1 Sated) — make one additional Fight ACTION.</p>
+        <p class="ability"><b>Knit the Flesh</b> (1 Sated) — remove 2 Blood Markers from himself or a friendly vampire within 6".</p>
+        <p class="ability"><b>Crack the Whip</b> (1 Sated) — choose a friendly Blood-Crazed model within 12" and pick its charge target this Activation.</p>
+      </div></div>
+      <div class="drow"><span class="lab">Keywords</span><p class="val kw">ELITE, LEADER, VAMPIRE, FEAR, TOUGH, STRONG, REGENERATE (2), FEED, DOMINION, DRAGON COURT</p></div>
+    </div>
+  </div>
+
+  <!-- STRIGOI WITCH -->
+  <div class="entry">
+    <div class="entry-head"><span class="nm"><span class="lim">0–1</span>The Strigoi Witch</span><span class="cost">110<span class="duc"></span></span></div>
+    <div class="entry-body">
+      <div class="etop"><img class="portrait" src="images/witch.jpg" alt="The Strigoi Witch"><div class="etop-r"><p class="flavor">She rules by knowing whose veins answer when she calls.</p><table class="stat">
+        <thead><tr><th>Movement</th><th>Ranged</th><th>Melee</th><th>Armour</th><th>Base</th></tr></thead>
+        <tbody><tr><td>6"/Infantry</td><td>—</td><td>+0 DICE</td><td>0</td><td>32mm</td></tr></tbody>
+      </table></div></div>
+      <div class="drow"><span class="lab">Battlekit</span><p class="val">Any from the Armoury.</p></div>
+      <div class="drow"><span class="lab">Abilities</span><div class="val">
+        <p class="ability"><b>Blood Sorcery</b> — to cast a spell she pays its Blood Marker cost from any models on the battlefield (friend or foe). She may Overcharge by additionally spending her own Sated, as noted per spell. Each time she casts, she gains 1 Sated.</p>
+        <p class="ability"><b>Ascended (3–4 Sated)</b> — her spell ranges increase by 6", and each spell's Blood Marker cost is reduced by 1 (minimum 1).</p>
+        <div class="state"><p class="ability"><b>Blood-Crazed (5–6 Sated) — The Red Hour.</b> She cannot cast spells, loses DOMINION, and is compelled to charge as any Blood-Crazed model. At the end of her Activation, every model within 6" — friend or foe — suffers an Injury Roll; then remove 1 Sated from her.</p></div>
+        <p class="ability"><b>Boiling Veins</b> (pay 2 Blood Markers) — an enemy within 12" suffers an Injury Roll with +1 INJURY DICE. <em>Overcharge:</em> each Sated spent adds +1 INJURY DICE; if 3+ are spent, place 1 Blood Marker on the Witch.</p>
+        <p class="ability"><b>Rise, Bleed Again</b> (pay 1 Blood Marker) — a friendly vampire within 6" stands up if Down, and you remove up to 2 Blood Markers from it. <em>Overcharge:</em> spend 1 Sated to also grant it 1 Sated.</p>
+        <p class="ability"><b>Drive the Hunt</b> (pay 2 Blood Markers) — a friendly Blood-Crazed model within a friendly DOMINION model's Leash immediately makes a Charge ACTION and Fights; the Witch chooses its target. <em>Overcharge:</em> spend 1 Sated — if that Fight takes a model Out of Action, it makes one more Charge and Fight.</p>
+      </div></div>
+      <div class="drow"><span class="lab">Keywords</span><p class="val kw">ELITE, VAMPIRE, FEED, FEAR, REGENERATE (1), DOMINION, DRAGON COURT</p></div>
+    </div>
+  </div>
+
+  <!-- MOROI -->
+  <div class="entry">
+    <div class="entry-head"><span class="nm"><span class="lim">0–1</span>The Moroi</span><span class="cost">110<span class="duc"></span></span></div>
+    <div class="entry-body">
+      <div class="etop"><img class="portrait" src="images/moroi.jpg" alt="The Moroi"><div class="etop-r"><p class="flavor">A higher vampire who hunts alone — heard before she is seen, and rarely seen at all.</p><table class="stat">
+        <thead><tr><th>Movement</th><th>Ranged</th><th>Melee</th><th>Armour</th><th>Base</th></tr></thead>
+        <tbody><tr><td>7"/Infantry</td><td>+2 DICE</td><td>+2 DICE</td><td>0</td><td>32mm</td></tr></tbody>
+      </table></div></div>
+      <div class="drow"><span class="lab">Battlekit</span><p class="val">Any from the Armoury.</p></div>
+      <div class="drow"><span class="lab">Abilities</span><div class="val">
+        <p class="ability"><b>Deathshriek</b> (innate Ranged Weapon · 16" · BLAST 2") — after resolving the attack, place 1 Blood Marker on each model in the blast.</p>
+        <p class="ability"><b>Stalker's Veil</b> — −1 DICE to Ranged Attacks that target the Moroi.</p>
+        <p class="ability"><b>Vanish (Hide ACTION)</b> — while in contact with terrain at least ½" high, take a Risky Success Roll, +1 DICE. On a Success, enemy models cannot choose the Moroi as the target of a Ranged Attack or Charge until she moves, charges, retreats, attacks, or an enemy moves within 1.5". She can still be hit within a BLAST.</p>
+        <p class="ability"><b>Ascended (3–4 Sated)</b> — Deathshriek increases to BLAST 3", and she may take the Hide ACTION even when not in contact with terrain.</p>
+        <div class="state"><p class="ability"><b>Blood-Crazed (5–6 Sated).</b> Blood-Crazed behaviour applies; she loses Deathshriek and Vanish, and her Melee Attacks gain +1 INJURY DICE.</p></div>
+      </div></div>
+      <div class="drow"><span class="lab">Keywords</span><p class="val kw">ELITE, VAMPIRE, INFILTRATOR, FEAR, FEED, REGENERATE (1), DRAGON COURT</p></div>
+    </div>
+  </div>
+
+  <!-- IELE -->
+  <div class="entry">
+    <div class="entry-head"><span class="nm"><span class="lim">0–1</span>The Iele</span><span class="cost">100<span class="duc"></span></span></div>
+    <div class="entry-body">
+      <div class="etop"><img class="portrait" src="images/iele.jpg" alt="The Iele"><div class="etop-r"><p class="flavor">She has never lifted a blade. She does not need to — the enemy will do it for her.</p><table class="stat">
+        <thead><tr><th>Movement</th><th>Ranged</th><th>Melee</th><th>Armour</th><th>Base</th></tr></thead>
+        <tbody><tr><td>6"/Infantry</td><td>—</td><td>−1 DICE</td><td>0</td><td>32mm</td></tr></tbody>
+      </table></div></div>
+      <div class="drow"><span class="lab">Battlekit</span><p class="val">Any from the Armoury.</p></div>
+      <div class="drow"><span class="lab">Abilities</span><div class="val">
+        <p class="ability"><b>Allure</b> — enemy models must treat all attacks against the Iele as Risky Success Rolls while within 6" of her.</p>
+        <p class="ability"><b>Beguile (ACTION)</b> — take a Risky Success Roll, +1 DICE. On a Success, choose an enemy within 12" and move it up to 6" directly toward the Iele. It may be moved within 1" of friendly models (not counting as charging), off objectives, or out of cover.</p>
+        <p class="ability"><b>Thrall (ACTION)</b> — take a Risky Success Roll, +1 DICE. On a Success, choose an enemy within 12" in Line of Sight; it immediately makes a stripped activation under your control — either Move + one Ranged Attack, or Charge + one Melee Attack — and nothing else.</p>
+        <p class="ability"><b>Ascended (3–4 Sated)</b> — Beguile and Thrall may target enemies within 18", and Allure extends to 9".</p>
+        <div class="state"><p class="ability"><b>Blood-Crazed (5–6 Sated) — The Maddening Dance.</b> Blood-Crazed behaviour applies; she loses Beguile and Thrall. At the end of her Activation, every other model within 12" — friend and foe — is moved up to 4" directly toward the Iele.</p></div>
+      </div></div>
+      <div class="drow"><span class="lab">Keywords</span><p class="val kw">ELITE, VAMPIRE, FEAR, FEED, REGENERATE (1), DRAGON COURT</p></div>
+    </div>
+  </div>
+
+  <!-- BOYAR -->
+  <div class="entry">
+    <div class="entry-head"><span class="nm">The Boyar</span><span class="cost">65<span class="duc"></span> + Order</span></div>
+    <div class="entry-body">
+      <div class="etop"><img class="portrait" src="images/boyar.jpg" alt="The Boyar"><div class="etop-r"><p class="flavor">A knight of the Order of the Dragon, armored and ancient — the backbone of the court.</p><table class="stat">
+        <thead><tr><th>Movement</th><th>Ranged</th><th>Melee</th><th>Armour</th><th>Base</th></tr></thead>
+        <tbody><tr><td>6"/Infantry</td><td>+0 DICE</td><td>+2 DICE</td><td>0</td><td>32mm</td></tr></tbody>
+      </table></div></div>
+      <div class="drow"><span class="lab">Battlekit</span><p class="val">Any from the Armoury.</p></div>
+      <div class="drow"><span class="lab">Abilities</span><div class="val">
+        <p class="ability"><b>Ascended (3–4 Sated)</b> — Melee rises to +3 DICE; gains FEAR; plus its Order's effect.</p>
+        <p class="ability"><b>Blood-Crazed (5–6 Sated)</b> — Melee Attacks gain +1 INJURY DICE; Blood-Crazed behaviour applies.</p>
+        <p class="ability" style="margin-top:6px;"><b>Orders</b> <span class="note">(choose one at recruitment):</span></p>
+        <ul class="blood" style="margin-top:4px;">
+          <li><strong>Anchor (Deathless)</strong> (+25<span class="duc"></span>) — heaviest armour and a shield. Ascended adds TOUGH, and REGENERATE rises to (2).</li>
+          <li><strong>Butcher</strong> (+40<span class="duc"></span>) — Ascended: its melee weapon gains CLEAVE 2 and its Melee Attacks gain +1 DICE.</li>
+          <li><strong>Feeder</strong> (+20<span class="duc"></span>) — Ascended: when it takes an enemy Out of Action with a Melee Attack, a friendly vampire within 6" gains 1 Sated.</li>
+          <li><strong>Hunt (the Huntsman)</strong> (+30<span class="duc"></span>) — Ranged becomes +2 DICE. Ascended: its Ranged Attacks gain IGNORE LONG RANGE and its Ranged Weapons count as having ASSAULT, regardless of weapon carried.</li>
+        </ul>
+        <p class="ability"><b>Knight-Captain</b> (+20<span class="duc"></span>, any Order) — gains the DOMINION keyword.</p>
+      </div></div>
+      <div class="drow"><span class="lab">Keywords</span><p class="val kw">ELITE, VAMPIRE, STRONG, FEED, REGENERATE (1), DRAGON COURT</p></div>
+    </div>
+  </div>
+
+  <div class="divider"><span class="ln"></span>
+    <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 8 L60 40 L92 50 L60 60 L50 92 L40 60 L8 50 L40 40 Z"/></svg>
+    <span class="ln r"></span></div>
+
+  <!-- ===== TROOPS ENTRIES ===== -->
+  <h2 class="section">Troops Warband Entries</h2>
+
+  <!-- SHRIKE -->
+  <div class="entry">
+    <div class="entry-head"><span class="nm">The Shrike</span><span class="cost">70<span class="duc"></span></span></div>
+    <div class="entry-body">
+      <div class="etop"><img class="portrait" src="images/shrike.jpg" alt="The Shrike"><div class="etop-r"><p class="flavor">Not sent, but released; it does not stop while anything nearby still moves.</p><table class="stat">
+        <thead><tr><th>Movement</th><th>Ranged</th><th>Melee</th><th>Armour</th><th>Base</th></tr></thead>
+        <tbody><tr><td>8"/Infantry</td><td>—</td><td>+2 DICE</td><td>0</td><td>32mm</td></tr></tbody>
+      </table></div></div>
+      <div class="drow"><span class="lab">Battlekit</span><p class="val">A Blood-Blade.</p></div>
+      <div class="drow"><span class="lab">Abilities</span><div class="val">
+        <p class="ability"><b>Loosed</b> — always treated as Blood-Crazed. Deploys far from any friendly DOMINION model.</p>
+        <p class="ability"><b>From the Dark</b> — instead of deploying normally, it may be held in reserve and enter from any board edge at the start of any of your Turns.</p>
+        <p class="ability"><b>Rampage</b> — each time it takes a model Out of Action with a Melee Attack, it must immediately make a Charge ACTION against the nearest model and Fight again — friend or foe. While within a friendly DOMINION model's Leash range, it instead charges the nearest enemy. This continues while kills follow; it ends when a Fight fails to take a model Out of Action.</p>
+      </div></div>
+      <div class="drow"><span class="lab">Keywords</span><p class="val kw">INFILTRATOR, VAMPIRE, FEAR, STRONG, REGENERATE (1), DRAGON COURT</p></div>
+    </div>
+  </div>
+
+  <!-- LEECH -->
+  <div class="entry">
+    <div class="entry-head"><span class="nm">The Leech</span><span class="cost">65<span class="duc"></span></span></div>
+    <div class="entry-body">
+      <div class="etop"><img class="portrait" src="images/leech.jpg" alt="The Leech"><div class="etop-r"><p class="flavor">A wall that bleeds for others.</p><table class="stat">
+        <thead><tr><th>Movement</th><th>Ranged</th><th>Melee</th><th>Armour</th><th>Base</th></tr></thead>
+        <tbody><tr><td>5"/Infantry</td><td>—</td><td>+0 DICE</td><td>−1</td><td>40mm</td></tr></tbody>
+      </table></div></div>
+      <div class="drow"><span class="lab">Abilities</span><div class="val">
+        <p class="ability"><b>Born Crazed</b> — deploys with 3 Sated (cap 6) and is always treated as Blood-Crazed.</p>
+        <p class="ability"><b>Bloodburn</b> — at the end of each of its Activations, remove 1 Sated.</p>
+        <p class="ability"><b>Glutton</b> — whenever a model is taken Out of Action within 6" (friend or foe), gain 1 Sated.</p>
+        <p class="ability"><b>Bloodletting</b> — a friendly vampire taking a Feed ACTION within 3" may instead take 1 Sated directly from the Leech.</p>
+        <p class="ability"><b>Gorged (2+ Sated)</b> — has FEAR, TOUGH, REGENERATE (2), and <em>Transfixing Dread:</em> enemy models within 6" treat each 1" of any move away from the Leech as 2".</p>
+        <p class="ability"><b>Starving (0–1 Sated)</b> — loses FEAR, Transfixing Dread, and TOUGH; REGENERATE drops to 0.</p>
+      </div></div>
+      <div class="drow"><span class="lab">Keywords</span><p class="val kw">VAMPIRE, FEAR, TOUGH, STRONG, REGENERATE (2), DRAGON COURT</p></div>
+    </div>
+  </div>
+
+  <!-- STRIX -->
+  <div class="entry">
+    <div class="entry-head"><span class="nm">The Strix</span><span class="cost">30<span class="duc"></span></span></div>
+    <div class="entry-body">
+      <p class="flavor">A leather-winged thing loosed at the enemy's rear.</p>
+      <table class="stat">
+        <thead><tr><th>Movement</th><th>Ranged</th><th>Melee</th><th>Armour</th><th>Base</th></tr></thead>
+        <tbody><tr><td>10"/Flying</td><td>—</td><td>+0 DICE</td><td>0</td><td>32mm</td></tr></tbody>
+      </table>
+      <div class="drow"><span class="lab">Abilities</span><div class="val">
+        <p class="ability"><b>Erratic Flight</b> — −1 DICE to Ranged Attacks that target a Strix.</p>
+      </div></div>
+      <div class="drow"><span class="lab">Keywords</span><p class="val kw">FLYING, DRAGON COURT</p></div>
+    </div>
+  </div>
+
+  <!-- BLED -->
+  <div class="entry">
+    <div class="entry-head"><span class="nm">The Bled</span><span class="cost">10<span class="duc"></span></span></div>
+    <div class="entry-body">
+      <div class="etop"><img class="portrait" src="images/bled.jpg" alt="The Bled"><div class="etop-r"><p class="flavor">Walking blood-flasks the Court drives to war.</p><table class="stat">
+        <thead><tr><th>Movement</th><th>Ranged</th><th>Melee</th><th>Armour</th><th>Base</th></tr></thead>
+        <tbody><tr><td>6"/Infantry</td><td>—</td><td>−1 DICE</td><td>0</td><td>25mm</td></tr></tbody>
+      </table></div></div>
+      <div class="drow"><span class="lab">Abilities</span><div class="val">
+        <p class="ability"><b>Cattle</b> — when a Bled is taken Out of Action by an enemy, a friendly vampire within 3" immediately gains 1 Sated.</p>
+        <p class="ability"><b>Offer the Vein</b> — a friendly vampire within 1" of a Bled may take a Feed ACTION on it and make an Injury Roll against the Bled. The vampire gains its Sated as normal; the Bled suffers the injury and may be taken Out of Action.</p>
+      </div></div>
+      <div class="drow"><span class="lab">Keywords</span><p class="val kw">DRAGON COURT</p></div>
+    </div>
+  </div>
+
+  <div class="divider"><span class="ln"></span>
+    <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 8 L60 40 L92 50 L60 60 L50 92 L40 60 L8 50 L40 40 Z"/></svg>
+    <span class="ln r"></span></div>
+
+  <!-- ===== CREATION ===== -->
+  <h2 class="section">Warband Creation</h2>
+  <ul class="blood">
+    <li>A starting Warband has <strong>700 ducats (<span class="duc"></span>)</strong>.</li>
+    <li>It must include exactly one <strong>Voivode</strong>, who is its Leader.</li>
+    <li>It may include no more than <strong>6 models with the ELITE keyword</strong> (Voivode, Strigoi Witch, Moroi, Iele, Boyars).</li>
+    <li>It must pledge to one Elder Bloodline — Mara, Negru Vodă, or Cazimir.</li>
+    <li>All other limits follow the standard rules of <em>Trench Crusade</em>.</li>
+  </ul>
+
+  <div class="divider" style="margin-top:46px;"><span class="ln"></span>
+    <svg viewBox="0 0 100 100" fill="none" aria-hidden="true" style="width:42px;height:42px;color:var(--blood);">
+      <circle cx="50" cy="52" r="30" stroke="currentColor" stroke-width="3.5" opacity=".4"/>
+      <path d="M50 22 C32 22 24 37 27 52 C30 67 42 74 52 73" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M50 22 C55 18 62 18 66 22 L58 28 Z" fill="currentColor"/>
+    </svg>
+    <span class="ln r"></span></div>
+  <p style="text-align:center; font-family:'Cinzel',serif; letter-spacing:.2em; font-size:.7rem; text-transform:uppercase; color:var(--ink-soft); margin-top:6px;">Damned by Heaven · Hounded by Hell · Sworn to the Blood</p>
+
+</div>
+</div>
+</body>
+</html>
