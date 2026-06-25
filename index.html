@@ -192,9 +192,69 @@
     .entry-head{flex-direction:column; gap:2px;}
   }
 .duc{display:inline-block;width:.8em;height:.68em;background:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyMic+PHBhdGggZmlsbD0nIzljN2EzNycgZD0nTTIuNSAxNiBMNC41IDcgTDkgMTEuNSBMMTIgNSBMMTUgMTEuNSBMMTkuNSA3IEwyMS41IDE2IFonLz48cmVjdCB4PSczJyB5PScxNS41JyB3aWR0aD0nMTgnIGhlaWdodD0nMy4yJyBmaWxsPScjOWM3YTM3Jy8+PC9zdmc+') no-repeat center/contain;vertical-align:-.03em;margin:0 1px;}.glory{display:inline-block;width:.74em;height:.74em;background:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyNCc+PGNpcmNsZSBjeD0nMTInIGN5PScxMicgcj0nNC4yJyBmaWxsPScjN2MxMzE2Jy8+PGcgc3Ryb2tlPScjN2MxMzE2JyBzdHJva2Utd2lkdGg9JzInIHN0cm9rZS1saW5lY2FwPSdyb3VuZCc+PGxpbmUgeDE9JzEyJyB5MT0nMS41JyB4Mj0nMTInIHkyPSc1Jy8+PGxpbmUgeDE9JzEyJyB5MT0nMTknIHgyPScxMicgeTI9JzIyLjUnLz48bGluZSB4MT0nMS41JyB5MT0nMTInIHgyPSc1JyB5Mj0nMTInLz48bGluZSB4MT0nMTknIHkxPScxMicgeDI9JzIyLjUnIHkyPScxMicvPjxsaW5lIHgxPSc0LjUnIHkxPSc0LjUnIHgyPSc3JyB5Mj0nNycvPjxsaW5lIHgxPScxNycgeTE9JzE3JyB4Mj0nMTkuNScgeTI9JzE5LjUnLz48bGluZSB4MT0nNC41JyB5MT0nMTkuNScgeDI9JzcnIHkyPScxNycvPjxsaW5lIHgxPScxNycgeTE9JzcnIHgyPScxOS41JyB5Mj0nNC41Jy8+PC9nPjwvc3ZnPg==') no-repeat center/contain;vertical-align:-.09em;margin:0 1px;}.etop{display:flex;gap:16px;align-items:flex-start;margin-bottom:10px;}.portrait{width:150px;height:auto;flex:0 0 auto;border:1px solid var(--blood);padding:3px;background:#efe7d0;}.etop-r{flex:1 1 auto;min-width:0;}.etop-r .flavor{margin-top:0;}.cover-hero{display:block;width:300px;max-width:72%;margin:18px auto 6px;border:2px solid var(--blood);padding:4px;background:#efe7d0;box-shadow:0 4px 18px #00000055;}@media(max-width:560px){.etop{flex-direction:column;align-items:center;}.portrait{width:62%;}.etop-r{width:100%;}}
+
+.cl-btn{position:fixed;top:14px;right:14px;z-index:50;font-family:'Cinzel',serif;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 13px;border:1px solid var(--gold,#9c7a37);background:#4c0a0b;color:#e9dfc6;border-radius:3px;cursor:pointer;box-shadow:0 2px 10px #00000066;}
+.cl-btn:hover{background:#7c1316;}
+.cl-overlay{position:fixed;inset:0;z-index:60;background:rgba(20,12,6,.82);overflow-y:auto;padding:42px 16px;}
+.cl-overlay[hidden]{display:none;}
+.cl-panel{max-width:760px;margin:0 auto;background:#e9dfc6;border:1px solid #7c1316;border-radius:4px;padding:30px 34px 36px;position:relative;box-shadow:0 8px 44px #000;}
+.cl-close{position:absolute;top:12px;right:14px;border:1px solid #b6a37a;background:#efe7d0;color:#4c0a0b;border-radius:3px;width:34px;height:34px;cursor:pointer;font-size:1rem;line-height:1;}
+.cl-close:hover{background:#f4eed6;}
+.cl-title{font-family:'Pirata One',serif;color:#4c0a0b;font-size:2.1rem;margin:0 0 2px;}
+.cl-sub{font-family:'Cinzel',serif;color:#4a3826;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;margin:0 0 18px;}
+.cl-ver{font-family:'Cinzel',serif;color:#7c1316;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.98rem;margin:24px 0 1px;border-bottom:2px solid #7c1316;padding-bottom:5px;}
+.cl-date{font-family:'Cinzel',serif;color:#6a5436;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;margin:6px 0 8px;}
+.cl-cat{font-family:'Cinzel',serif;color:#231a12;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;margin:11px 0 3px;font-weight:600;}
+.cl-list{margin:0 0 6px;padding-left:18px;}
+.cl-list li{font-size:.9rem;line-height:1.45;margin-bottom:4px;color:#231a12;}
+.cl-note{font-size:.8rem;font-style:italic;color:#4a3826;margin-top:18px;border-top:1px solid #b6a37a;padding-top:12px;}
+
 </style>
 </head>
 <body>
+<button id="cl-open" class="cl-btn">&#10070; Changelog</button>
+<div id="cl-overlay" class="cl-overlay" hidden>
+  <div class="cl-panel">
+    <button id="cl-close" class="cl-close" aria-label="Close">&#10005;</button>
+    <div class="cl-title">Changelog</div>
+    <div class="cl-sub">The Court of the Dragon &middot; a homebrew Trench Crusade warband</div>
+
+    <div class="cl-ver">v0.3 &mdash; Bloodline Pass</div>
+    <div class="cl-date">24 June 2026</div>
+    <div class="cl-cat">Changed</div>
+    <ul class="cl-list">
+      <li><b>Mara</b> &mdash; <i>Bloodscent</i> replaced with <b>Predator&rsquo;s Reach</b>: +1 DICE to Dash (Risky) rolls and +1 DICE to the Charge Bonus roll. A more reliable turn-1 close to reach a gunline before it fires.</li>
+      <li><b>Negru Vod&#259;</b> &mdash; <i>Ancient Will</i> replaced with <b>The Blood is Owed</b>: redirect a hit to a friendly non-VAMPIRE within 3&Prime; before the Injury Roll (once per enemy Activation). An answer to auto-hit / IGNORE ARMOUR weapons.</li>
+    </ul>
+    <div class="cl-cat">Design intent</div>
+    <ul class="cl-list">
+      <li>Each bloodline now has a distinct answer to shooting &mdash; Mara (tempo), Negru (command/redirect), Cazimir (endurance) &mdash; removing the &ldquo;Cazimir auto-pick&rdquo; problem.</li>
+    </ul>
+
+    <div class="cl-ver">v0.2 &mdash; Playtest Revisions &amp; Presentation</div>
+    <div class="cl-date">June 2026</div>
+    <div class="cl-cat">Changed</div>
+    <ul class="cl-list">
+      <li><b>Feed</b> is now a <b>Risky ACTION</b>: on a Success, place 1 Blood Marker on the target and gain 1 Sated. Cannot target models with the <b>ARTIFICIAL</b> keyword.</li>
+      <li><b>Scoring</b>: Blood-Crazed models may now hold and score objectives (they still obey the Leash) &mdash; fixes a near-unplayable scoring hole flagged in playtesting.</li>
+    </ul>
+    <div class="cl-cat">Fixed</div>
+    <ul class="cl-list">
+      <li>Boyar ranged Order renamed from <i>Impaler</i> to <b>Hunt (the Huntsman)</b>, resolving the clash with the Impaler&rsquo;s Stake weapon.</li>
+      <li>PDF: ducat/glory icons render correctly; full unit artwork added; each unit entry placed on its own page.</li>
+    </ul>
+
+    <div class="cl-ver">v0.1 &mdash; Initial Release</div>
+    <div class="cl-date">June 2026</div>
+    <div class="cl-cat">Added</div>
+    <ul class="cl-list">
+      <li>The Court of the Dragon: full faction &mdash; special rules (the Sated economy, the Leash / DOMINION, the State Ladder), 9 unit profiles, the Armoury, three Elder bloodlines (Mara, Negru Vod&#259;, Cazimir) and warband creation.</li>
+      <li>Illustrated codex (web + PDF) and the interactive Companion app (list builder + live battle tracker).</li>
+    </ul>
+
+    <div class="cl-note">Unit costs and several newer abilities are placeholders pending playtesting. Dates on earlier entries are approximate.</div>
+  </div>
+</div>
 <div class="sheet">
 <div class="inner">
 
@@ -638,5 +698,17 @@
 
 </div>
 </div>
+<script>
+(function(){
+  var o=document.getElementById('cl-overlay');
+  var openB=document.getElementById('cl-open'), closeB=document.getElementById('cl-close');
+  function open(){o.hidden=false;document.body.style.overflow='hidden';}
+  function close(){o.hidden=true;document.body.style.overflow='';}
+  openB.addEventListener('click',open);
+  closeB.addEventListener('click',close);
+  o.addEventListener('click',function(e){if(e.target===o)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!o.hidden)close();});
+})();
+</script>
 </body>
 </html>
